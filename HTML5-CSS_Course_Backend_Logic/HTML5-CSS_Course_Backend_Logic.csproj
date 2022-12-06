@@ -1,5 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <ProjectReference Include="..\HTML5-CSS_Course_Backend_Models\HTML5-CSS_Course_Backend_Models.csproj" />
+    <ProjectReference Include="..\HTML5-CSS_Course_Backend_Repository\HTML5-CSS_Course_Backend_Repository.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>HTML5_CSS_Course_Backend_Logic</RootNamespace>
