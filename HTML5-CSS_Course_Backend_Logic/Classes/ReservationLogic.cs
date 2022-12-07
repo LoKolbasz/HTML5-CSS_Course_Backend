@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using HTML5_CSS_Course_Backend_Models;
 using HTML5_CSS_Course_Backend_Repository;
 
@@ -14,12 +15,27 @@ namespace HTML5_CSS_Course_Backend_Logic
 
         public void Create(Reservation item)
         {
-            repo.Create(item);
+            if (ReadAll().FirstOrDefault(t => t.CompareDates(item.begin, item.end) && t.table!.Equals(item.table)) == null)
+            {
+                repo.Create(item);
+                Validator.ValidateObject(item, new ValidationContext(item), true);
+            }
+            else
+            {
+                throw new ArgumentException("The table is already reserved");
+            }
         }
 
         public void Delete(string id)
         {
             repo.Delete(id);
+        }
+
+        public IEnumerable<Reservation> Get(DateTime start, DateTime stop)
+        {
+            return ReadAll()
+                   .Where(t => t.CompareDates(start, stop))
+                   .AsEnumerable();
         }
 
         public Reservation? Read(string id)
@@ -35,6 +51,7 @@ namespace HTML5_CSS_Course_Backend_Logic
         public void Update(Reservation item)
         {
             repo.Update(item);
+            Validator.ValidateObject(item, new ValidationContext(item), true);
         }
     }
 }
