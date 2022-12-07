@@ -18,6 +18,11 @@ namespace HTML5_CSS_Course_Backend_Repository.Database
                                             .WithMany(t => t.reservations)
                                             .HasForeignKey(t => t.tableId)
                                             .OnDelete(DeleteBehavior.SetNull));
+            modelBuilder.Entity<Table>(t => t
+                                      .HasMany(r => r.reservations)
+                                      .WithOne(r => r.table)
+                                      .HasForeignKey(r => r.tableId)
+                                      .OnDelete(DeleteBehavior.SetNull));
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
