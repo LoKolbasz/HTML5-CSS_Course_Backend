@@ -15,7 +15,7 @@ public class Table
     public byte capacity { get; set; } //székek száma az asztalnál
     [NotMapped]
     [JsonIgnore]
-    public ICollection<Reservation> reservations { get; set; }
+    public ICollection<Reservation> ? reservations { get; set; }
 
     public Table(long id, string name, byte capacity)
     {

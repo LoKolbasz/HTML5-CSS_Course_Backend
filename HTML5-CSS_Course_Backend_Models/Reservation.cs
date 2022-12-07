@@ -7,11 +7,11 @@ namespace HTML5_CSS_Course_Backend_Models
     public class Reservation
     {
         [Key]
-        public string id { get; set; }
+        public string? id { get; set; }
         [MaxLength(20)]
         [MinLength(3)]
-        public string name { get; set; }    //Foglaló neve
-        public string contact { get; set; } //Foglalás kezdete (pl.: 2021-10-10T10:00:10)
+        public string? name { get; set; }    //Foglaló neve
+        public string? contact { get; set; } //Foglalás kezdete (pl.: 2021-10-10T10:00:10)
         public DateTime begin { get; set; } //Foglalás kezdete
         public DateTime end { get; set; }   //Foglalás vége
         [NotMapped]
@@ -30,6 +30,10 @@ namespace HTML5_CSS_Course_Backend_Models
             this.end = end;
             this.tableId = tableId;
             this.person = person;
+        }
+
+        public Reservation()
+        {
         }
     }
 }
