@@ -28,7 +28,7 @@ namespace HTML5_CSS_Course_Backend_Models
         [Range(1,long.MaxValue)]
         [JsonIgnore]
         public long tableId { get; set; }
-        [NotNull]
+        [JsonConverter(typeof(ByteStringJson))]
         public byte[] person { get; set; }    //Személyek száma
 
         public static string dateTimeFormat = "yyyy-MM-ddThh:mm:ss";
@@ -45,12 +45,25 @@ namespace HTML5_CSS_Course_Backend_Models
             this.tableId = tableId;
             this.person = Encoding.UTF8.GetBytes(person);
         }
+        [JsonConstructor]
+
+        public Reservation(string id, string name, string contact, DateTime begin, DateTime end, Table table, long tableId, byte[] person)
+        {
+            this.id = id;
+            this.name = name;
+            this.contact = contact;
+            this.begin = begin;
+            this.end = end;
+            this.table = null;
+            this.tableId = table.id;
+            this.person = person;
+        }
 
         public Reservation()
         {
         }
-        public bool CompareDates(DateTime start, DateTime stop) => start <= this.begin || start <= this.end || stop >= this.begin || stop >= this.end;
-
+        public bool ReservationsIntersect(DateTime start, DateTime stop) => (start <= this.end && start >= this.begin) ||
+                                                                            (stop >= this.begin && stop <= this.end);
         public override bool Equals(object obj)
         {
             return obj is Reservation reservation &&

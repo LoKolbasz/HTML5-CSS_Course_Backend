@@ -15,10 +15,10 @@ namespace HTML5_CSS_Course_Backend_Logic
 
         public void Create(Reservation item)
         {
-            if (ReadAll().FirstOrDefault(t => t.CompareDates(item.begin, item.end) && t.table!.Equals(item.table)) == null)
+            if (ReadAll().ToList().FirstOrDefault(t => t.ReservationsIntersect(item.begin, item.end))== null) //&& t.table!.Equals(item.table)) == null)
             {
-                repo.Create(item);
                 Validator.ValidateObject(item, new ValidationContext(item), true);
+                repo.Create(item);
             }
             else
             {
@@ -34,7 +34,7 @@ namespace HTML5_CSS_Course_Backend_Logic
         public IEnumerable<Reservation> Get(DateTime start, DateTime stop)
         {
             return ReadAll()
-                   .Where(t => t.CompareDates(start, stop))
+                   .Where(t => t.ReservationsIntersect(start, stop))
                    .AsEnumerable();
         }
 

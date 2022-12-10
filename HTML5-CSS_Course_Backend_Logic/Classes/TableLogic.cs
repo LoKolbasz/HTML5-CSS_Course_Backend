@@ -49,7 +49,7 @@ namespace HTML5_CSS_Course_Backend_Logic
         {
             return ReadAll()
                    .Where(t => t.isEnabled
-                   && t.reservations!.Where(t => t.CompareDates(start, stop)).Count() == 0)
+                   && t.reservations!.Where(t => t.ReservationsIntersect(start, stop)).Count() == 0)
                    .AsEnumerable();
         }
 
@@ -58,14 +58,15 @@ namespace HTML5_CSS_Course_Backend_Logic
             Table? result;
             try
             {
-                result = ((TableRepository)repo).ReadByName(name);
+                var tmp = ((TableRepository)repo).ReadByName(name);
+                result = new Table() { id = tmp.id, name = tmp.name, capacity = tmp.capacity};
             }
             catch (Exception e)
             {
                 throw new QuerryFailedException(e);
             }
             if (result == null) throw new NullReferenceException();
-            return result;
+            return result!;
         }
 
         public IEnumerable<Table> GetByState(bool state)
